@@ -1,0 +1,20 @@
+.badge {
+  font-size: 16px;
+  font-weight: 700;
+  padding: 6px 10px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.badge.primary {
+  background: rgba(47, 127, 255, 0.12);
+  color: #1d64d6;
+}
+
+.badge.neutral {
+  background: rgba(11, 42, 85, 0.08);
+  color: rgba(11, 42, 85, 0.75);
+}

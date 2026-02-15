@@ -1,0 +1,23 @@
+.app-shell {
+  min-height: 100vh;
+  background: #f4f9ff;
+}
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #ffffff;
+  border-bottom: 1px solid rgba(47, 127, 255, 0.14);
+  padding: 14px 20px;
+}
+
+.app-header__title {
+  font-size: 18px;
+  font-weight: 900;
+  color: #0b2a55;
+}
+
+.app-main {
+  padding: 0;
+}

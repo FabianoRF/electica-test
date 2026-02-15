@@ -1,0 +1,8 @@
+<span
+  class="badge"
+  [class.primary]="variant() === 'primary'"
+  [class.neutral]="variant() === 'neutral'"
+  [style.visibility]="hidden() ? 'hidden' : 'visible'"
+>
+  {{ text() }}
+</span>

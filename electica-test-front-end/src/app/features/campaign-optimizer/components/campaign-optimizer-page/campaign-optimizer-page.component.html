@@ -1,0 +1,98 @@
+<div class="page">
+  <section class="hero">
+    <h1 class="headline">Campaign Optimizer</h1>
+    <p class="subhead">Enter a total budget and compare allocation strategies.</p>
+
+    <form class="form" (ngSubmit)="optimize()">
+      <label class="field">
+        <span class="label">Total budget</span>
+        <input
+          class="input"
+          type="number"
+          name="totalBudget"
+          [ngModel]="totalBudget()"
+          (ngModelChange)="totalBudget.set($event)"
+          min="1"
+          step="1"
+        />
+      </label>
+
+      <label class="field">
+        <span class="label">Days</span>
+        <input
+          class="input"
+          type="number"
+          name="days"
+          [ngModel]="days()"
+          (ngModelChange)="days.set($event)"
+          min="1"
+          step="1"
+        />
+      </label>
+
+      <button class="button" type="submit" [disabled]="!canSubmit()">Optimize</button>
+    </form>
+
+    @if (loading()) {
+      <div class="status">Loading…</div>
+    }
+
+    @if (error()) {
+      <div class="error">{{ error() }}</div>
+    }
+  </section>
+
+  @if (results()) {
+    <div class="scenarios-header">Select the allocation strategy:</div>
+
+    <div class="scenarios-container">
+      @for (card of scenarioCards(); track card.key) {
+        <app-budget-card
+          [title]="card.data.title"
+          [description]="card.data.description"
+          [data]="card.data"
+          [isRecommended]="card.data.recommended"
+          [isSelected]="selectedKey() === card.key"
+          (selectCard)="openCreateModal(card.key)"
+        ></app-budget-card>
+      }
+    </div>
+
+    @if (modalOpen()) {
+      <div class="modal-backdrop" (click)="closeModal()">
+        <div class="modal" (click)="$event.stopPropagation()">
+          <div class="modal-title">Create campaign</div>
+
+          <label class="modal-field">
+            <span class="modal-label">Name</span>
+            <input
+              class="modal-input"
+              type="text"
+              [ngModel]="campaignName()"
+              (ngModelChange)="campaignName.set($event)"
+              placeholder="Campaign name"
+            />
+          </label>
+
+          @if (createError()) {
+            <div class="modal-error">{{ createError() }}</div>
+          }
+
+          <div class="modal-actions">
+            <button class="modal-button secondary" type="button" (click)="closeModal()">
+              Return
+            </button>
+            <button
+              class="modal-button primary"
+              type="button"
+              [disabled]="!canCreate()"
+              (click)="createCampaign()"
+            >
+              Create
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+  }
+</div>

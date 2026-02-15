@@ -1,0 +1,44 @@
+<section
+  class="card"
+  [class.recommended]="isRecommended()"
+  [class.selected]="isSelected()"
+  role="button"
+  tabindex="0"
+  (click)="selectCard.emit()"
+  (keydown.enter)="selectCard.emit()"
+  (keydown.space)="selectCard.emit()"
+>
+  <header class="card-header">
+    <div class="card-title-row">
+      <h2 class="title">{{ title() }}</h2>
+      <app-badge text="Recommended" [hidden]="!isRecommended()"></app-badge>
+    </div>
+
+    <p class="description">{{ description() }}</p>
+
+    @if (data()) {
+      <div class="summary">
+        <div class="summary-item">
+          <div class="summary-label">Total budget</div>
+          <div class="summary-value">${{ data()!.totalBudget }}</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-label">Budget per day</div>
+          <div class="summary-value">${{ data()!.budgetPerDay }}</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-label">Estimated reach</div>
+          <div class="summary-value">{{ data()!.totalEstimatedReach }}</div>
+        </div>
+      </div>
+    }
+  </header>
+
+  <div class="chart">
+    @if (data()) {
+      <app-scenario-pie-chart [items]="data()!.breakdown"></app-scenario-pie-chart>
+    } @else {
+      <div class="placeholder">No data</div>
+    }
+  </div>
+</section>
