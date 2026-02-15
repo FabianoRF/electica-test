@@ -20,11 +20,11 @@
       <div class="summary">
         <div class="summary-item">
           <div class="summary-label">Total budget</div>
-          <div class="summary-value">${{ data()!.totalBudget }}</div>
+          <div class="summary-value">{{ data()!.totalBudget | currency: 'USD' }}</div>
         </div>
         <div class="summary-item">
           <div class="summary-label">Budget per day</div>
-          <div class="summary-value">${{ data()!.budgetPerDay }}</div>
+          <div class="summary-value">{{ data()!.budgetPerDay | currency: 'USD' }}</div>
         </div>
         <div class="summary-item">
           <div class="summary-label">Estimated reach</div>

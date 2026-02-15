@@ -79,6 +79,16 @@
   font-weight: 700;
 }
 
+.scenarios {
+  background: #ffffff;
+  border: 1px solid rgba(47, 127, 255, 0.18);
+  border-radius: 14px;
+  padding: 16px;
+  padding-bottom: 52px;
+  box-shadow: 0 10px 24px rgba(15, 60, 130, 0.06);
+  margin-top: 10px;
+}
+
 .scenarios-header {
   margin-top: 18px;
   font-size: 18px;
@@ -186,5 +196,6 @@
 @media (max-width: 1200px) {
   .scenarios-container {
     grid-template-columns: 1fr;
+    gap: 50px;
   }
 }

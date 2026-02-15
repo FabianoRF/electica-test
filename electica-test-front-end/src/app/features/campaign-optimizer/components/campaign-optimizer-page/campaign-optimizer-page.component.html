@@ -43,20 +43,22 @@
   </section>
 
   @if (results()) {
-    <div class="scenarios-header">Select the allocation strategy:</div>
+    <section class="scenarios">
+      <div class="scenarios-header">Select the allocation strategy:</div>
 
-    <div class="scenarios-container">
-      @for (card of scenarioCards(); track card.key) {
-        <app-budget-card
-          [title]="card.data.title"
-          [description]="card.data.description"
-          [data]="card.data"
-          [isRecommended]="card.data.recommended"
-          [isSelected]="selectedKey() === card.key"
-          (selectCard)="openCreateModal(card.key)"
-        ></app-budget-card>
-      }
-    </div>
+      <div class="scenarios-container">
+        @for (card of scenarioCards(); track card.key) {
+          <app-budget-card
+            [title]="card.data.title"
+            [description]="card.data.description"
+            [data]="card.data"
+            [isRecommended]="card.data.recommended"
+            [isSelected]="selectedKey() === card.key"
+            (selectCard)="openCreateModal(card.key)"
+          ></app-budget-card>
+        }
+      </div>
+    </section>
 
     @if (modalOpen()) {
       <div class="modal-backdrop" (click)="closeModal()">
