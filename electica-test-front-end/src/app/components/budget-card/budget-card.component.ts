@@ -1,13 +1,11 @@
-import { CurrencyPipe } from '@angular/common';
 import { Component, EventEmitter, input, Output } from '@angular/core';
 
 import { OptimizationScenarioResult } from '../../models/optimization.models';
 import { BadgeComponent } from '../badge/badge.component';
-import { ScenarioPieChartComponent } from '../scenario-pie-chart/scenario-pie-chart.component';
 
 @Component({
   selector: 'app-budget-card',
-  imports: [BadgeComponent, CurrencyPipe, ScenarioPieChartComponent],
+  standalone: false,
   templateUrl: './budget-card.component.html',
   styleUrl: './budget-card.component.scss',
 })

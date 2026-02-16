@@ -1,9 +1,8 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: false,
   template: `
     <div class="app-shell">
       <header class="app-header">
@@ -16,6 +15,6 @@ import { RouterOutlet } from '@angular/router';
   `,
   styleUrl: './app.scss',
 })
-export class App {
+export class AppComponent {
   protected readonly title = signal('electica-test-front-end');
 }

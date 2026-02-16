@@ -1,21 +1,19 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 
-import { BudgetCardComponent } from '../budget-card/budget-card.component';
-import { CampaignOptimizerService } from '../../services/campaign-optimizer.service';
 import {
   OptimizationScenariosResult,
   OptimizationStrategyKey,
   OptimizationScenarioResult,
 } from '../../models/optimization.models';
+import { CampaignOptimizerService } from '../../services/campaign-optimizer.service';
 
 @Component({
-  selector: 'app-campaign-optimizer-page',
-  imports: [FormsModule, BudgetCardComponent],
-  templateUrl: './campaign-optimizer-page.component.html',
-  styleUrl: './campaign-optimizer-page.component.scss',
+  selector: 'app-campaign-optimizer',
+  standalone: false,
+  templateUrl: './campaign-optimizer.component.html',
+  styleUrl: './campaign-optimizer.component.scss',
 })
-export class CampaignOptimizerPageComponent {
+export class CampaignOptimizerComponent {
   private readonly service = inject(CampaignOptimizerService);
 
   totalBudget = signal<number>(100);
@@ -94,6 +92,25 @@ export class CampaignOptimizerPageComponent {
       error: () => {
         this.error.set('Could not fetch distribution results.');
         this.loading.set(false);
+      },
+    });
+  }
+
+  export(): void {
+    this.loading.set(true);
+    this.service.exportCsv(this.totalBudget(), this.days()).subscribe({
+      next: (blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'campaign-distribution.csv';
+        link.click();
+        window.URL.revokeObjectURL(url);
+        this.loading.set(false);
+      },
+      error: () => {
+        this.loading.set(false);
+        alert('Could not export csv.');
       },
     });
   }

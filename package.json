@@ -1,0 +1,26 @@
+{
+  "name": "electica-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "install:all": "npm install --prefix electica-test-back-end && npm install --prefix electica-test-front-end",
+    "start:backend": "npm run start:dev --prefix electica-test-back-end",
+    "start:front": "npm run start --prefix electica-test-front-end",
+    "dev": "concurrently -n \"BACK,FRONT\" -c \"blue,magenta\" \"npm run start:backend\" \"npm run start:front\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FabianoRF/electica-test.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FabianoRF/electica-test/issues"
+  },
+  "homepage": "https://github.com/FabianoRF/electica-test#readme",
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}

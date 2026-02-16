@@ -10,13 +10,19 @@
   border-radius: 16px;
   padding: 18px;
   box-shadow: 0 10px 24px rgba(15, 60, 130, 0.06);
-}
 
-.headline {
-  margin: 0;
-  font-size: 22px;
-  font-weight: 800;
-  color: #0b2a55;
+  .header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .headline {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 800;
+    color: #0b2a55;
+  }
 }
 
 .subhead {

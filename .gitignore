@@ -1,0 +1,75 @@
+# Compiled output
+electica-test-back-end/dist/
+electica-test-back-end/build/
+electica-test-front-end/dist/
+electica-test-front-end/tmp/
+electica-test-front-end/out-tsc/
+electica-test-front-end/bazel-out/
+
+# Dependencies
+electica-test-back-end/node_modules/
+electica-test-front-end/node_modules/
+node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Tests
+electica-test-back-end/coverage/
+electica-test-back-end/.nyc_output/
+electica-test-front-end/coverage/
+electica-test-front-end/libpeerconnection.log
+electica-test-front-end/testem.log
+
+# IDEs and editors
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/mcp.json
+.history/*
+
+# Environment variables
+.env
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temp directories
+.temp
+.tmp
+electica-test-front-end/.angular/cache/
+electica-test-front-end/.sass-cache/
+electica-test-front-end/connect.lock
+electica-test-front-end/typings/
+electica-test-front-end/__screenshots__/
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Diagnostic reports
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json

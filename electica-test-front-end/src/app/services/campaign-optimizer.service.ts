@@ -24,4 +24,14 @@ export class CampaignOptimizerService {
   createCampaign(name: string): Observable<{ name: string }> {
     return this.http.post<{ name: string }>(`${this.baseUrl}/campaign`, { name });
   }
+
+  exportCsv(totalBudget: number, days: number): Observable<Blob> {
+    const params = new HttpParams()
+      .set('totalBudget', String(totalBudget))
+      .set('days', String(days));
+    return this.http.get(`${this.baseUrl}/campaign/export`, {
+      params,
+      responseType: 'blob',
+    });
+  }
 }

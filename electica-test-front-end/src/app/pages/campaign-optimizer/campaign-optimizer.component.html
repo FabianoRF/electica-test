@@ -1,6 +1,9 @@
 <div class="page">
   <section class="hero">
-    <h1 class="headline">Campaign Optimizer</h1>
+    <div class="header-container">
+      <h1 class="headline">Campaign Optimizer</h1>
+      <button class="button" type="button" (click)="export()">Export csv</button>
+    </div>
     <p class="subhead">Enter a total budget and compare allocation strategies.</p>
 
     <form class="form" (ngSubmit)="optimize()">

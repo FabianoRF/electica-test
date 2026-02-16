@@ -4,7 +4,7 @@ export type BadgeVariant = 'primary' | 'neutral';
 
 @Component({
   selector: 'app-badge',
-  standalone: true,
+  standalone: false,
   templateUrl: './badge.component.html',
   styleUrl: './badge.component.scss',
 })
