@@ -2,6 +2,8 @@
 
 A tool for campaign managers to quickly determine optimal budget distribution across advertising channels (Video, Display, Social) based on different optimization strategies.
 
+![Application Screenshot](./assets/print.png)
+
 ## Assumptions Made
 
 **Channels & CPM Values:**
