@@ -91,6 +91,7 @@ describe('CampaignsService', () => {
 
     const mockCsvProvider: Partial<CsvProvider> = {
       generateCsv: jest.fn().mockReturnValue('csv,data'),
+      generateCampaignsCsv: jest.fn().mockReturnValue('id,name,strategy,date'),
     };
 
     const module: TestingModule = await Test.createTestingModule({
@@ -243,76 +244,101 @@ describe('CampaignsService', () => {
   describe('createCampaign', () => {
     it('should call repository create with correct data', async () => {
       const campaignName = 'Test Campaign';
+      const strategy = OptimizationGoal.MaximizeReach;
       const mockCampaign = new Campaign({
         id: '1',
         name: campaignName,
+        strategy,
         createdAt: new Date(),
       });
 
       campaignRepository.create.mockResolvedValue(mockCampaign);
 
-      const result = await service.createCampaign({ name: campaignName });
+      const result = await service.createCampaign({
+        name: campaignName,
+        strategy,
+      });
 
       expect(campaignRepository.create).toHaveBeenCalledWith({
         name: campaignName,
+        strategy,
       });
       expect(result).toEqual(mockCampaign);
     });
 
-    it('should return created campaign', async () => {
+    it('should return created campaign with strategy', async () => {
       const campaignName = 'Another Campaign';
+      const strategy = OptimizationGoal.Balanced;
       const expectedCampaign = new Campaign({
         id: '2',
         name: campaignName,
+        strategy,
         createdAt: new Date(),
       });
 
       campaignRepository.create.mockResolvedValue(expectedCampaign);
 
-      const result = await service.createCampaign({ name: campaignName });
+      const result = await service.createCampaign({
+        name: campaignName,
+        strategy,
+      });
 
       expect(result.id).toBe('2');
       expect(result.name).toBe(campaignName);
+      expect(result.strategy).toBe(strategy);
       expect(result.createdAt).toBeInstanceOf(Date);
     });
   });
 
-  describe('exportCsv', () => {
-    it('should generate CSV and return StreamableFile', () => {
-      const dto = { totalBudget: 5000, days: 15 };
-      const mockCsvData = 'Strategy,Channel,Budget\nmax_reach,social,3000';
+  describe('exportCampaigns', () => {
+    it('should call repository findAll and return StreamableFile', async () => {
+      const mockCampaigns = [
+        new Campaign({
+          id: '1',
+          name: 'Campaign 1',
+          strategy: OptimizationGoal.MaximizeReach,
+          createdAt: new Date(),
+        }),
+        new Campaign({
+          id: '2',
+          name: 'Campaign 2',
+          strategy: OptimizationGoal.Balanced,
+          createdAt: new Date(),
+        }),
+      ];
+      const mockCsvData =
+        'ID,Name,Strategy,Created At\n1,Campaign 1,maximize_reach,2024-01-01';
 
-      csvProvider.generateCsv.mockReturnValue(mockCsvData);
+      campaignRepository.findAll.mockResolvedValue(mockCampaigns);
+      csvProvider.generateCampaignsCsv.mockReturnValue(mockCsvData);
 
-      const result = service.exportCsv(dto);
+      const result = await service.exportCampaigns();
 
-      expect(strategyProvider.getStrategies).toHaveBeenCalled();
-      expect(cpmProvider.getCpmRates).toHaveBeenCalled();
-      expect(csvProvider.generateCsv).toHaveBeenCalled();
+      expect(campaignRepository.findAll).toHaveBeenCalled();
+      expect(csvProvider.generateCampaignsCsv).toHaveBeenCalledWith(
+        mockCampaigns,
+      );
       expect(result).toBeInstanceOf(StreamableFile);
     });
 
-    it('should pass scenarios to CSV provider', () => {
-      const dto = { totalBudget: 8000, days: 20 };
+    it('should generate CSV from campaigns list', async () => {
+      const mockCampaigns = [
+        new Campaign({
+          id: '3',
+          name: 'Test Campaign',
+          strategy: OptimizationGoal.MaximizeEngagement,
+          createdAt: new Date(),
+        }),
+      ];
 
-      service.exportCsv(dto);
+      campaignRepository.findAll.mockResolvedValue(mockCampaigns);
+      csvProvider.generateCampaignsCsv.mockReturnValue('csv,data');
 
-      expect(csvProvider.generateCsv).toHaveBeenCalled();
-      const callArg = csvProvider.generateCsv.mock.calls[0][0];
-      expect(callArg).toHaveProperty(OptimizationGoal.MaximizeReach);
-      expect(callArg).toHaveProperty(OptimizationGoal.Balanced);
-      expect(callArg).toHaveProperty(OptimizationGoal.MaximizeEngagement);
-    });
+      await service.exportCampaigns();
 
-    it('should create buffer from CSV string', () => {
-      const dto = { totalBudget: 5000, days: 15 };
-      const mockCsvData = 'test,csv,data';
-
-      csvProvider.generateCsv.mockReturnValue(mockCsvData);
-
-      const result = service.exportCsv(dto);
-
-      expect(result).toBeInstanceOf(StreamableFile);
+      expect(csvProvider.generateCampaignsCsv).toHaveBeenCalledWith(
+        mockCampaigns,
+      );
     });
   });
 });

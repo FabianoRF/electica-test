@@ -84,10 +84,7 @@ Access the application at `http://localhost:4200`
 Run backend unit tests:
 
 ```bash
-# From project root
-npm run test:backend
-
-# Or from backend directory
+# From backend directory
 cd electica-test-back-end
 npm test
 ```
