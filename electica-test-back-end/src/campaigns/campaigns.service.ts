@@ -80,13 +80,13 @@ export class CampaignsService {
     return scenarios;
   }
 
-  async createCampaign({ name }: CreateCampaignDto) {
-    return this.campaignRepository.create({ name });
+  async createCampaign({ name, strategy }: CreateCampaignDto) {
+    return this.campaignRepository.create({ name, strategy });
   }
 
-  exportCsv(dto: DistributionScenariosDto): StreamableFile {
-    const scenarios = this.getAllDistributions(dto);
-    const csv = this.csvProvider.generateCsv(scenarios);
+  async exportCampaigns(): Promise<StreamableFile> {
+    const campaigns = await this.campaignRepository.findAll();
+    const csv = this.csvProvider.generateCampaignsCsv(campaigns);
     const buffer = Buffer.from(csv, 'utf-8');
     return new StreamableFile(buffer);
   }

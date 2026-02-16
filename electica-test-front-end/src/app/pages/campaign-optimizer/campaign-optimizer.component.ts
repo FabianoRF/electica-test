@@ -66,8 +66,15 @@ export class CampaignOptimizerComponent {
     this.creating.set(true);
     this.createError.set(null);
     const name = this.campaignName().trim();
+    const strategy = this.selectedKey();
 
-    this.service.createCampaign(name).subscribe({
+    if (!strategy) {
+      this.creating.set(false);
+      this.createError.set('No strategy selected.');
+      return;
+    }
+
+    this.service.createCampaign(name, strategy).subscribe({
       next: () => {
         this.creating.set(false);
         this.modalOpen.set(false);
@@ -98,12 +105,12 @@ export class CampaignOptimizerComponent {
 
   export(): void {
     this.loading.set(true);
-    this.service.exportCsv(this.totalBudget(), this.days()).subscribe({
+    this.service.exportCampaigns().subscribe({
       next: (blob) => {
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url;
-        link.download = 'campaign-distribution.csv';
+        link.download = 'campaigns.csv';
         link.click();
         window.URL.revokeObjectURL(url);
         this.loading.set(false);

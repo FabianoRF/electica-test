@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import type { OptimizationScenariosResult } from '../../../interfaces/optimization-scenarios-result.interface';
+import type { Campaign } from '../../entities/campaign.entity';
 import type { CsvProvider } from './csv.provider';
 
 @Injectable()
@@ -14,6 +15,19 @@ export class HardcodedCsvProvider implements CsvProvider {
           (item) =>
             `${strategy},${item.channel},${item.budgetAllocated},${item.percentage},${item.estimatedReach},${item.cpm}`,
         ),
+      )
+      .join('\n');
+
+    return header + rows;
+  }
+
+  generateCampaignsCsv(campaigns: Campaign[]): string {
+    const header = 'ID,Name,Strategy,Created At\n';
+
+    const rows = campaigns
+      .map(
+        (campaign) =>
+          `${campaign.id},${campaign.name},${campaign.strategy},${campaign.createdAt.toISOString()}`,
       )
       .join('\n');
 

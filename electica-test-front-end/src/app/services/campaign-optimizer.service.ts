@@ -21,16 +21,15 @@ export class CampaignOptimizerService {
     });
   }
 
-  createCampaign(name: string): Observable<{ name: string }> {
-    return this.http.post<{ name: string }>(`${this.baseUrl}/campaign`, { name });
+  createCampaign(name: string, strategy: string): Observable<{ name: string; strategy: string }> {
+    return this.http.post<{ name: string; strategy: string }>(`${this.baseUrl}/campaign`, {
+      name,
+      strategy,
+    });
   }
 
-  exportCsv(totalBudget: number, days: number): Observable<Blob> {
-    const params = new HttpParams()
-      .set('totalBudget', String(totalBudget))
-      .set('days', String(days));
+  exportCampaigns(): Observable<Blob> {
     return this.http.get(`${this.baseUrl}/campaign/export`, {
-      params,
       responseType: 'blob',
     });
   }

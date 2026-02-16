@@ -27,11 +27,8 @@ export class CampaignsController {
 
   @Get('export')
   @Header('Content-Type', 'text/csv')
-  @Header(
-    'Content-Disposition',
-    'attachment; filename="campaign-distribution.csv"',
-  )
-  exportCsv(@Query() distributeDto: DistributionScenariosDto): StreamableFile {
-    return this.campaignsService.exportCsv(distributeDto);
+  @Header('Content-Disposition', 'attachment; filename="campaigns.csv"')
+  exportCampaigns(): Promise<StreamableFile> {
+    return this.campaignsService.exportCampaigns();
   }
 }

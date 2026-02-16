@@ -1,3 +1,4 @@
+import { OptimizationGoal } from '../../enums/optimization-goal.enum';
 import { Campaign } from '../entities/campaign.entity';
 import { CampaignRepository } from './campaign.repository';
 
@@ -5,10 +6,14 @@ export class InMemoryCampaignRepository implements CampaignRepository {
   private campaigns: Campaign[] = [];
   private seq = 1;
 
-  create(data: { name: string }): Promise<Campaign> {
+  create(data: {
+    name: string;
+    strategy: OptimizationGoal;
+  }): Promise<Campaign> {
     const campaign = new Campaign({
       id: String(this.seq++),
       name: data.name,
+      strategy: data.strategy,
       createdAt: new Date(),
     });
 
