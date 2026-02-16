@@ -5,6 +5,7 @@ A tool for campaign managers to quickly determine optimal budget distribution ac
 ## Assumptions Made
 
 **Channels & CPM Values:**
+
 - Video: $24 CPM (high cost, high engagement)
 - Display: $12 CPM (medium cost, balanced reach)
 - Social: $4.50 CPM (low cost, broad reach)
@@ -15,6 +16,7 @@ These values are based on typical industry ranges. The architecture uses a `CpmP
 Weight-based allocation where each strategy has predefined weights per channel. Estimated reach is calculated as `(budgetAllocated / CPM) * 1000`. This is a simplified model - real-world scenarios would involve more complex optimization (diminishing returns, audience overlap, etc.).
 
 **Strategies:**
+
 - **Maximize Reach**: Social-heavy (60% Social, 30% Display, 10% Video)
 - **Balanced**: Equal distribution (~33% each)
 - **Maximize Engagement**: Video-heavy (60% Video, 30% Display, 10% Social)
@@ -35,7 +37,7 @@ Simple form with budget/days inputs, 3 strategy cards with pie charts, CSV expor
 
 ## What I Would Do Differently With More Time
 
-- Add comprehensive unit and e2e tests
+- Add comprehensive e2e tests
 - Implement real database persistence (PostgreSQL)
 - Add historical campaign comparison
 - Implement user authentication
@@ -48,6 +50,7 @@ Simple form with budget/days inputs, 3 strategy cards with pie charts, CSV expor
 ## How to Run
 
 ### Prerequisites
+
 - Node.js 18+
 - npm
 
@@ -76,17 +79,31 @@ npm run start:front
 
 Access the application at `http://localhost:4200`
 
+### Running Tests
+
+Run backend unit tests:
+
+```bash
+# From project root
+npm run test:backend
+
+# Or from backend directory
+cd electica-test-back-end
+npm test
+```
+
 ## API Endpoints
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/campaign/distribution?totalBudget=X&days=Y` | Get budget distribution for all strategies |
-| POST | `/campaign` | Create a new campaign `{ name: string }` |
-| GET | `/campaign/export?totalBudget=X&days=Y` | Export distribution as CSV |
+| Method | Endpoint                                      | Description                                |
+| ------ | --------------------------------------------- | ------------------------------------------ |
+| GET    | `/campaign/distribution?totalBudget=X&days=Y` | Get budget distribution for all strategies |
+| POST   | `/campaign`                                   | Create a new campaign `{ name: string }`   |
+| GET    | `/campaign/export`                            | Export all created campaigns as CSV        |
 
 ## Future Scalability
 
 ### Multiple Strategies
+
 The `StrategyProvider` interface allows adding new strategies without changing core logic:
 
 ```typescript
@@ -99,15 +116,19 @@ export class DatabaseStrategyProvider implements StrategyProvider {
 ```
 
 Then swap in `campaigns.module.ts`:
+
 ```typescript
 { provide: STRATEGY_PROVIDER, useClass: DatabaseStrategyProvider }
 ```
 
 ### Additional Marketing Types
+
 Add new channel types to `ChannelType` enum and update CPM/Strategy providers. The architecture supports any number of channels.
 
 ### Database Integration
+
 1. Create a new repository implementing `CampaignRepository`:
+
 ```typescript
 export class PostgresCampaignRepository implements CampaignRepository {
   // Implement create, findAll, findById with real DB calls
@@ -115,6 +136,7 @@ export class PostgresCampaignRepository implements CampaignRepository {
 ```
 
 2. Swap in module:
+
 ```typescript
 { provide: CAMPAIGN_REPOSITORY, useClass: PostgresCampaignRepository }
 ```
@@ -122,6 +144,7 @@ export class PostgresCampaignRepository implements CampaignRepository {
 The entity structure (`Campaign`) is already designed to be ORM-compatible.
 
 ### Scaling for Production
+
 - Add Redis for caching CPM rates and strategy configurations
 - Use environment variables for all configurable values
 - Add rate limiting and request validation
